@@ -26,21 +26,25 @@ end
 def palindrome_product()
 	term1 = term2 = maxof(DIGITS)
 	big_pal = 0
-	t1min = 0
+	min = 1
 
-	while term2 > t1min do
+	# Descending loop on term2 while greater than min (default 1).
+	# Inside while loop find biggest palindrome product by iterating greatest
+	#    to least on term1.
+	# Upon finding biggest palindrome product, save it to big_pal and set min to i.
+	# Setting min optimizes the loop to stop before looping through smaller terms
+	#    that we know won't result in a bigger palindrome.
+	while term2 > min do
 		term1.downto(1) do |i|
 			product = i*term2
 			if product > big_pal && is_palindrome?(product)
 				big_pal = product
-				t1min = i
+				min = i
 				break
 			end
 		end
 		term2 -= 1
 	end
-
-
 
 	big_pal
 end
