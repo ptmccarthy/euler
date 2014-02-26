@@ -4,7 +4,7 @@ A palindromic number reads the same both ways. The largest palindrome made from 
 Find the largest palindrome made from the product of two 3-digit numbers.
 =end
 
-DIGITS=1
+DIGITS=2
 
 def is_palindrome?(num)
 	num = num.to_s
@@ -14,13 +14,13 @@ def is_palindrome?(num)
 	false
 end
 
-def products(digits)
+def maxof(digits)
 	max = 1
 	digits.times do
 		max *= 10
 	end
 	max -= 1
-
-
-
+	max
 end
+
+puts maxof(DIGITS)
