@@ -6,15 +6,25 @@ What is the largest prime factor of the number 600851475143 ?
 
 NUMBER = 600851475143
 
+# only have to check divisors up to sqrt(num)
 def is_prime?(num)
   Math.sqrt(num).floor.downto(2).each do |i|
-    return false if num % i == 0
+    false if num % i == 0
   end
   true
 end
 
-puts is_prime?(2)
-puts is_prime?(29)
-puts is_prime?(47)
-puts is_prime?(2089)
-puts is_prime?(79691)
+
+def largest_prime(num)
+  prime = num
+  # iterate on each divisor from 2 to sqrt(num)
+  (2..Math.sqrt(num).to_int).each do |i|
+    # if prime <= i then we found the largest prime
+    break if prime <= i
+    # while prime is divisable by i keep dividing and assigning the result to prime
+    prime /= i while (prime > i && prime % i == 0)
+  end
+  prime
+end
+
+puts largest_prime(NUMBER)
