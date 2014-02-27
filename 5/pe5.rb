@@ -7,27 +7,18 @@ What is the smallest positive number that is evenly divisible by all of the numb
 DIVBYALLUPTO = 20
 
 def div(max)
-	num = max
-	found = false
-
-	while not found do
-		divisible_by_all = true
-		(1..max).each do |i|
-			divisible_by_all = false if num % i != 0
-		end
-		if divisible_by_all
-			return num
-		else
-			num += 1
-		end
+	num = 20
+	until (1..max).all? { |i| num % i == 0 }
+		num += 1
 	end
+	num
 end
+
 
 puts div(DIVBYALLUPTO)
 
-# holy moly this is an inefficient bruteforce but it produces the correct solution of 232792560
-# LOL
-# time ruby pe5.rb
-# => real	8m11.064s
-# => user	8m10.496s
-# => sys	0m0.426s
+# this is still pretty inefficient but its a big improvement over 8+ minutes...
+# 232792560
+# real	2m39.209s
+# user	2m39.003s
+# sys	0m0.177s
