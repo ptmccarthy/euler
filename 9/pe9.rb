@@ -23,6 +23,18 @@ def compute_triplet(m,n)
     [a,b,c]
 end
 
+# Fibonacci's method for generating primitive Pythagorean triples
+def fibonacci_method(k)
+    a = Math.sqrt(k).to_i
+    n = (k-1)^2
+    b = ((k+1)/2)-1
+    puts b
+    # k = a^2, c^2 = a^2 + b^2
+    c = Math.sqrt(k + b**2).to_i
+    puts [a,b,c]
+end
+
+# scale the primitive triplet 3,4,5 by a factor
 def scale_triplet(factor)
     triplet = [3,4,5]
     scaled = []
@@ -43,5 +55,7 @@ def find_triplets_equal_to(max)
 end
 
 #puts find_triplets_equal_to(1000)
+#puts scale_triplet(20)
+fibonacci_method(169)
 
-puts scale_triplet(20)
+
