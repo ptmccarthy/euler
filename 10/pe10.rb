@@ -12,17 +12,22 @@ def is_prime?(num)
   true
 end
 
-# adapted from problem 7
 def sum_of_primes_below(max)
-  count = 2
-  sum = 0
-
-  until count == max do
-    sum += count if is_prime?(count)
-    count += 1
+  primes = []
+  (2..max).each do |i|
+    primes << i if is_prime?(i)
   end
 
-  sum
+  primes.inject(:+)
 end
 
-puts sum_of_primes_below(2000000)
+puts sum_of_primes_below(2_000_000)
+
+
+# still not great...
+#
+# 142913828922
+#
+# real  1m45.944s
+# user  1m45.875s
+# sys 0m0.058s
