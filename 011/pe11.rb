@@ -95,9 +95,38 @@ class Grid
     end
     max_product
   end
+
+  def max_product_of_diagonals_in_row(y)
+    factors = []
+    position = [0, y]
+    max_product = 0
+
+    while position[0] <= @grid.length - ADJACENT
+      product = 1
+      factors << @grid[position[0]][position[1]]
+      position[0] += 1
+      position[1] += 1
+    end
+
+    position = ADJACENT - 1
+    while position < factors.length
+      product = 1
+      position.downto(position - (ADJACENT - 1)) { |x| product *= factors[x] }
+      max_product = product if product > max_product
+      position += 1
+    end
+    puts max_product  
+
+  end
+
+  def max_product_of_diagonals
+    max_product_of_diagonals_in_row(0)
+  end
 end
+
 
 grid = Grid.new
 puts "max of rows: " + grid.max_product_all_rows.to_s
 puts "max of columns: " + grid.max_product_all_cols.to_s
+grid.max_product_of_diagonals
 
