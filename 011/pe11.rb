@@ -29,6 +29,9 @@ GRID_STRING = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 
 ADJACENT = 4
 
+# OPTIMIZE: pare this stuff down and make the defs more common.
+#   Too much repitition here. DRY.
+
 class Grid
   def initialize
     @grid = []
@@ -115,8 +118,7 @@ class Grid
       max_product = product if product > max_product
       position += 1
     end
-    puts max_product  
-
+    max_product  
   end
 
   def max_product_of_diagonals
