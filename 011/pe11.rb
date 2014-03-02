@@ -27,14 +27,77 @@ GRID_STRING = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"
 
-rows = GRID_STRING.split("\n")
-grid = []
-rows.each { |row| grid << row.split(" ") }
+ADJACENT = 4
 
+class Grid
+  def initialize
+    @grid = []
+    @rows = GRID_STRING.split("\n")
 
+    r = 0
+    while r < @rows.length do
+      @row_s = @rows[r].split(" ")
+      @grid << @row_s.map(&:to_i)
+      @rows[r] = @grid[r]
+      r += 1
+    end
+  end
 
+  def max_product_of_row(x)
+    row = @grid[x]
+    position = ADJACENT - 1
+    max_product = 0
 
+    while position < row.length
+      product = 1
+      position.downto(position - (ADJACENT - 1)) { |x| product *= row[x] }
+      max_product = product if product > max_product
+      position += 1
+    end
+    max_product
+  end
 
+  def max_product_all_rows
+    row = 0
+    max_product = 0
 
+    while row < @grid.length
+      row_product = max_product_of_row(row)
+      max_product = row_product if row_product > max_product
+      row += 1
+    end
+    max_product
+  end
 
+  def max_product_of_col(y)
+    col = []
+    @grid.each { |row| col << row[y] }
+    position = ADJACENT - 1
+    max_product = 0
+
+    while position < @grid.length
+      product = 1
+      position.downto(position - (ADJACENT - 1)) { |x| product *= col[x] }
+      max_product = product if product > max_product
+      position += 1
+    end
+    max_product
+  end
+
+  def max_product_all_cols
+    col = 0
+    max_product = 0
+
+    while col < @grid.length
+      col_product = max_product_of_col(col)
+      max_product = col_product if col_product > max_product
+      col += 1
+    end
+    max_product
+  end
+end
+
+grid = Grid.new
+puts "max of rows: " + grid.max_product_all_rows.to_s
+puts "max of columns: " + grid.max_product_all_cols.to_s
 
