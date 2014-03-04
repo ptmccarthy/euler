@@ -6,7 +6,8 @@ The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
 What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
 =end
 
-GRID_STRING = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+GRID_STRING = <<EOS
+08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
@@ -25,15 +26,15 @@ GRID_STRING = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
-01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"
+01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
+EOS
 
 ADJACENT = 4
-
-# OPTIMIZE: pare this stuff down and make the defs more common.
-#   Too much repitition here. DRY.
+GRID_SIZE = 20
 
 class Grid
   def initialize
+    @largest_product = 0
     @grid = []
     @rows = GRID_STRING.split("\n")
 
@@ -46,89 +47,42 @@ class Grid
     end
   end
 
-  def max_product_of_row(x)
-    row = @grid[x]
-    position = ADJACENT - 1
-    max_product = 0
-
-    while position < row.length
-      product = 1
-      position.downto(position - (ADJACENT - 1)) { |x| product *= row[x] }
-      max_product = product if product > max_product
-      position += 1
-    end
-    max_product
+  def grid()
+    @grid.to_s
   end
 
-  def max_product_all_rows
-    row = 0
-    max_product = 0
-
-    while row < @grid.length
-      row_product = max_product_of_row(row)
-      max_product = row_product if row_product > max_product
-      row += 1
+  # in each direction calculate the products at each point (x,y)
+  #   save and return the largest product found
+  def products_at_point(x,y)
+    -1.upto(1) do |j|
+      -1.upto(1) do |k|
+        unless (j == 0 && k == 0)
+          product = 1
+          0.upto(ADJACENT - 1) do |factor|
+            row = x + j * factor
+            col = y + k * factor
+            next if row < 0 || col < 0 || row >= GRID_SIZE || col >= GRID_SIZE
+            product *= @grid[row][col]
+            fin = factor == ADJACENT - 1
+            @largest_product = product if fin && product > @largest_product
+          end
+        end
+      end
     end
-    max_product
   end
 
-  def max_product_of_col(y)
-    col = []
-    @grid.each { |row| col << row[y] }
-    position = ADJACENT - 1
-    max_product = 0
-
-    while position < @grid.length
-      product = 1
-      position.downto(position - (ADJACENT - 1)) { |x| product *= col[x] }
-      max_product = product if product > max_product
-      position += 1
+  # iterate through every point (x,y) in the grid, calculate the products
+  #   at that point, then return the largest product of all points
+  def largest_product()
+    0.upto(GRID_SIZE - 1) do |x|
+      0.upto(GRID_SIZE - 1) do |y|
+        products_at_point(x,y)
+      end
     end
-    max_product
+    @largest_product
   end
 
-  def max_product_all_cols
-    col = 0
-    max_product = 0
-
-    while col < @grid.length
-      col_product = max_product_of_col(col)
-      max_product = col_product if col_product > max_product
-      col += 1
-    end
-    max_product
-  end
-
-  def max_product_of_diagonals_in_row(y)
-    factors = []
-    position = [0, y]
-    max_product = 0
-
-    while position[0] <= @grid.length - ADJACENT
-      product = 1
-      factors << @grid[position[0]][position[1]]
-      position[0] += 1
-      position[1] += 1
-    end
-
-    position = ADJACENT - 1
-    while position < factors.length
-      product = 1
-      position.downto(position - (ADJACENT - 1)) { |x| product *= factors[x] }
-      max_product = product if product > max_product
-      position += 1
-    end
-    max_product  
-  end
-
-  def max_product_of_diagonals
-    max_product_of_diagonals_in_row(0)
-  end
 end
 
-
 grid = Grid.new
-puts "max of rows: " + grid.max_product_all_rows.to_s
-puts "max of columns: " + grid.max_product_all_cols.to_s
-grid.max_product_of_diagonals
-
+puts grid.largest_product()
