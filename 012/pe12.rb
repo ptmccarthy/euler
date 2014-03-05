@@ -24,24 +24,43 @@ def triangle_number(x)
   triangle_num
 end
 
-def factors(num)
-  factors = []
-  (1..num).each do |x|
-    factors << x if num % x == 0
+# since divisor pairs mirror each other past sqrt(num), we only have to look
+#   for divisors up to sqrt(num). So for each pair we add 2 to num_div.
+def number_of_divisors(num)
+  num_div = 0
+  sqrt = Math.sqrt(num)
+  count = 1
+
+  until count > sqrt do
+    num_div += 2 if num % count == 0
+    count += 1
   end
-  factors
+
+  # but if num is a perfect square correct it to have 1 less divisor because
+  #   one of the divisor pairs are the same numbers
+  num_div -= 1 if sqrt**2 == num
+
+  num_div
 end
 
 def first_with_number_of_divisors_over(divisors)
+  num = 0
   count = 1
-  t_num = triangle_number(count)
-  factors = factors(t_num).length
-  until factors > divisors do
-    t_num = triangle_number(count)
-    factors = factors(t_num).length
+
+  until number_of_divisors(triangle_number(count)) > divisors do
+    num += count
     count += 1
   end
-  puts t_num
+  triangle_number(count)
 end
 
-first_with_number_of_divisors_over(500)
+puts first_with_number_of_divisors_over(500)
+
+#76576500
+#
+#real  0m5.257s
+#user  0m5.200s
+#sys 0m0.047s
+
+
+
