@@ -44,11 +44,9 @@ def number_of_divisors(num)
 end
 
 def first_with_number_of_divisors_over(divisors)
-  num = 0
   count = 1
 
   until number_of_divisors(triangle_number(count)) > divisors do
-    num += count
     count += 1
   end
   triangle_number(count)
@@ -58,9 +56,9 @@ puts first_with_number_of_divisors_over(500)
 
 #76576500
 #
-#real  0m5.257s
-#user  0m5.200s
-#sys 0m0.047s
+#real  0m5.240s
+#user  0m5.220s
+#sys 0m0.019s
 
 
 
