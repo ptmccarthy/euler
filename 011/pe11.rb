@@ -86,3 +86,9 @@ end
 
 grid = Grid.new
 puts grid.largest_product()
+
+#70600674
+#
+#real  0m0.048s
+#user  0m0.036s
+#sys 0m0.011s
