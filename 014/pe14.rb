@@ -14,3 +14,21 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 =end
 
+N = 13
+
+def collatz(num)
+  n = num
+  chain_length = 1
+
+  until n == 1 do
+    if n.even?
+      n = (n / 2)
+    else
+      n = (3*n + 1)
+    end
+    chain_length += 1
+  end
+  chain_length
+end
+
+puts collatz(N)
