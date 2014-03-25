@@ -14,7 +14,7 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 =end
 
-N = 13
+N = 1000000
 
 def collatz(num)
   n = num
@@ -31,4 +31,19 @@ def collatz(num)
   chain_length
 end
 
-puts collatz(N)
+def longest_sequence_under(num)
+  longest = [0,0]
+  (1..num-1).each do |n|
+    len = collatz(n)
+    longest = [n,len] if len > longest[1]
+  end
+  longest
+end
+
+puts longest_sequence_under(N).to_s
+
+#[837799, 525]
+
+#real  0m11.242s
+#user  0m11.226s
+#sys 0m0.014s
