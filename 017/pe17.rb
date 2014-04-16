@@ -42,8 +42,6 @@ DICT = {
   70 => "seventy",
   80 => "eighty",
   90 => "ninety",
-  100 => "hundred",
-  1000 => "thousand"
 }
 
 sum = 0
@@ -59,14 +57,14 @@ class Integer
     # thousands
     if (chars.length > 3)
       string += DICT[chars[3]] unless (chars[3] == 0)
-      string += DICT[1000]
+      string += "thousand"
       string += "and" unless (chars[2] + chars[1] + chars[0] >= 0)
     end
 
     # hundreds
     if (chars.length > 2)
       string += DICT[chars[2]] unless (chars[2] == 0)
-      string += DICT[100] unless (chars[2] == 0)
+      string += "hundred" unless (chars[2] == 0)
       string += "and" unless (chars[1] + chars[0] == 0)
     end
 
