@@ -1,4 +1,4 @@
-(ns project-euler.core)
+(ns euler.core)
 
 (defn foo
   "I don't do a whole lot."
